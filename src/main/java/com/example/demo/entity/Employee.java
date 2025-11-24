@@ -1,10 +1,17 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.sql.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "employee")
