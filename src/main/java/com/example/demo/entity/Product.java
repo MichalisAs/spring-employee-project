@@ -22,6 +22,4 @@ public class Product {
     private String name;
     private String description;
     private String barcode;
-
-    // getters and setters already handled by Lombok
 }

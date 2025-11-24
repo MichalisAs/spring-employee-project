@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -50,32 +52,26 @@ public class Employee {
     public Employee() {}
 
     public Long getId() {
-        return id == null ? null : id.longValue();
+        return 0L;
     }
 
-    public void setId(Integer id) { this.id = id; }
+    public String getName() {
+        return "";
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Integer getVacationDays() {
+        return 0;
+    }
 
-    public String getSurname() { return surname; }
-    public void setSurname(String surname) { this.surname = surname; }
+    public CallableStatement getStartDate() {
+        return null;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public Company getCompany() {
+        return null;
+    }
 
-    public Date getStartDate() { return startDate; }
-    public void setStartDate(Date startDate) { this.startDate = startDate; }
-
-    public Integer getVacationDays() { return vacationDays; }
-    public void setVacationDays(Integer vacationDays) { this.vacationDays = vacationDays; }
-
-    public BigDecimal getSalary() { return salary; }
-    public void setSalary(BigDecimal salary) { this.salary = salary; }
-
-    public String getEmploymentType() { return employmentType; }
-    public void setEmploymentType(String employmentType) { this.employmentType = employmentType; }
-
-    public Company getCompany() { return company; }
-    public void setCompany(Company company) { this.company = company; }
+    public LocalDate valueOf(Object startDate) {
+        return null;
+    }
 }

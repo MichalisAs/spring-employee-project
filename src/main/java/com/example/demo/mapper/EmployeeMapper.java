@@ -6,7 +6,6 @@ import com.example.demo.entity.Employee;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 @Component
 public class EmployeeMapper {
@@ -19,11 +18,21 @@ public class EmployeeMapper {
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());
         dto.setEmail(entity.getEmail());
-        dto.setStartDate(LocalDate.ofEpochDay(entity.getStartDate() != null ? entity.getStartDate().getDate() : null));
+
+        // Convert SQL Date -> LocalDate
+        dto.setStartDate(
+                entity.getStartDate() != null
+                        ? entity.valueOf(dto.getStartDate())
+                        : null
+        );
+
         dto.setVacationDays(entity.getVacationDays());
         dto.setSalary(entity.getSalary());
         dto.setEmploymentType(entity.getEmploymentType());
-        dto.setCompanyId(entity.getCompany() != null ? entity.getCompany().getId() : null);
+        dto.setCompanyId(
+                entity.getCompany() != null ? entity.getCompany().getId() : null
+        );
+
         return dto;
     }
 
@@ -31,28 +40,41 @@ public class EmployeeMapper {
         if (dto == null) return null;
 
         Employee entity = new Employee();
-        entity.setId(Math.toIntExact(dto.getId()));
+
+        // Convert Long -> Integer safely
+        entity.setId(dto.getId() != null ? dto.getId().intValue() : null);
+
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
 
-        // FIXED Date conversion
-        entity.setStartDate(dto.getStartDate() != null ? Date.valueOf((String) dto.getStartDate()) : null);
+        // Convert LocalDate -> SQL Date
+        entity.setStartDate(
+                dto.getStartDate() != null
+                        ? Date.valueOf((String) dto.getStartDate())
+                        : null
+        );
 
         entity.setVacationDays(dto.getVacationDays());
         entity.setSalary(dto.getSalary());
         entity.setEmploymentType(dto.getEmploymentType());
         entity.setCompany(company);
+
         return entity;
     }
 
     public void updateEntity(Employee entity, EmployeeDTO dto, Company company) {
+
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
 
-        // FIXED Date conversion
-        entity.setStartDate(dto.getStartDate() != null ? Date.valueOf((String) dto.getStartDate()) : null);
+        // Convert LocalDate -> SQL Date
+        entity.setStartDate(
+                dto.getStartDate() != null
+                        ? Date.valueOf((String) dto.getStartDate())
+                        : null
+        );
 
         entity.setVacationDays(dto.getVacationDays());
         entity.setSalary(dto.getSalary());
