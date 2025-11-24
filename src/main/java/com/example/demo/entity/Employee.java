@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Table(name = "employee")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Employee {
 
     @Id
@@ -48,8 +50,6 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-
-    public Employee() {}
 
     public Long getId() {
         return 0L;

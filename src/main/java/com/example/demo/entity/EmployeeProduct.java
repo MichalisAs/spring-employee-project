@@ -9,11 +9,13 @@ import jakarta.persistence.Column;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "employee_product")
 @Getter
 @Setter
+@NoArgsConstructor
 public class EmployeeProduct {
 
     @Id
@@ -30,8 +32,6 @@ public class EmployeeProduct {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
-    public EmployeeProduct() {}
 
     public Long getId() {
         return 0L;

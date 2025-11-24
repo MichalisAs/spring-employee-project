@@ -10,11 +10,13 @@ import jakarta.persistence.Column;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bonus")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Bonus {
 
     @Id
@@ -31,6 +33,4 @@ public class Bonus {
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
-
-    public Bonus() {}
 }

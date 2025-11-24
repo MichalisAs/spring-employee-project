@@ -11,11 +11,13 @@ import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "vacation_request")
 @Getter
 @Setter
+@NoArgsConstructor
 public class VacationRequest {
 
     @Id
@@ -34,8 +36,6 @@ public class VacationRequest {
     private String status;
 
     private Integer days;
-
-    public VacationRequest() {}
 
     public Long getId() {
         return 0L;

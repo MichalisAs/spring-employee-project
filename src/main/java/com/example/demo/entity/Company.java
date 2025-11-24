@@ -7,11 +7,13 @@ import jakarta.persistence.Column;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "company")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Company {
 
     @Id
@@ -26,8 +28,6 @@ public class Company {
 
     @Column(name = "phone", length = 20)
     private String phone;
-
-    public Company() {}
 
     public Long getId() {
         return 0L;
