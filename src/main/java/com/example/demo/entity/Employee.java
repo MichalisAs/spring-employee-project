@@ -74,4 +74,7 @@ public class Employee {
     public LocalDate valueOf(Object startDate) {
         return null;
     }
+
+    public void setVacationDays(Object vacationDays) {
+    }
 }
