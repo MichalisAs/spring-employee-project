@@ -51,10 +51,6 @@ public class Employee {
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
-    public Long getId() {
-        return 0L;
-    }
-
     public String getName() {
         return "";
     }

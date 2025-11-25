@@ -32,8 +32,4 @@ public class EmployeeProduct {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
-    public Long getId() {
-        return 0L;
-    }
 }

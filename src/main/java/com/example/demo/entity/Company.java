@@ -29,10 +29,6 @@ public class Company {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    public Long getId() {
-        return 0L;
-    }
-
     public String getAddress() {
         return "";
     }

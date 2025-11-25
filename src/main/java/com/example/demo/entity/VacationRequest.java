@@ -36,8 +36,4 @@ public class VacationRequest {
     private String status;
 
     private Integer days;
-
-    public Long getId() {
-        return 0L;
-    }
 }
