@@ -8,6 +8,7 @@ import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.CompanyService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // <--- added import
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,12 +27,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional // Needed because we are saving a new Company entity
     public CompanyDTO create(CompanyDTO dto) {
         Company entity = mapper.toEntity(dto);
         return mapper.toDTO(companyRepository.save(entity));
     }
 
     @Override
+    @Transactional // Needed because we are updating an existing Company entity
     public CompanyDTO update(Long id, CompanyDTO dto) {
         Company entity = companyRepository.findById(id).orElseThrow();
         mapper.updateEntity(entity, dto);
@@ -39,6 +42,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional // Needed because we are deleting a Company entity
     public void delete(Long id) {
         companyRepository.deleteById((long) id.intValue());
     }
@@ -46,18 +50,18 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyDTO getById(Long id) {
         Company entity = companyRepository.findById((long) id.intValue()).orElseThrow();
-        return mapper.toDTO(entity);
+        return mapper.toDTO(entity); // read-only
     }
 
     @Override
     public List<CompanyDTO> getAll() {
-        return companyRepository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+        return companyRepository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList()); // read-only
     }
 
     @Override
     public Double calculateMonthlyExpenses(Long companyId) {
         Company company = companyRepository.findById((long) companyId.intValue()).orElseThrow();
         List<Employee> employees = employeeRepository.findByCompany(company);
-        return employees.stream().mapToDouble(e -> e.getSalary().doubleValue()).sum();
+        return employees.stream().mapToDouble(e -> e.getSalary().doubleValue()).sum(); // read-only
     }
 }

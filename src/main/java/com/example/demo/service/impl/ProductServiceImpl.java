@@ -6,6 +6,7 @@ import com.example.demo.mapper.ProductMapper;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // <--- added import
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional // Needed for saving new Product
     public ProductDTO create(ProductDTO dto) {
         Product entity = mapper.toEntity(dto);
         return mapper.toDTO(repository.save(entity));
     }
 
     @Override
+    @Transactional // Needed for updating Product
     public ProductDTO update(Long id, ProductDTO dto) {
         Product entity = repository.findById(id).orElseThrow();
         entity.setName(dto.getName());
@@ -36,17 +39,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional // Needed for deleting Product
     public void delete(Long id) {
         repository.deleteById(id);
     }
 
     @Override
     public ProductDTO getById(Long id) {
-        return mapper.toDTO(repository.findById(id).orElseThrow());
+        return mapper.toDTO(repository.findById(id).orElseThrow()); // read-only
     }
 
     @Override
     public List<ProductDTO> getAll() {
-        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList()); // read-only
     }
 }

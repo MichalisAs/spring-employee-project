@@ -9,6 +9,7 @@ import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.VacationRequestRepository;
 import com.example.demo.service.VacationRequestService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // <--- added import
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -28,6 +29,7 @@ public class VacationRequestServiceImpl implements VacationRequestService {
     }
 
     @Override
+    @Transactional // Needed when creating a VacationRequest
     public VacationRequestDTO create(VacationRequestDTO dto) {
         Employee employee = employeeRepository.findById((long) dto.getEmployeeId().intValue()).orElseThrow();
         VacationRequest entity = mapper.toEntity(dto, employee);
@@ -36,15 +38,16 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 
     @Override
     public VacationRequestDTO getById(Long id) {
-        return mapper.toDTO(repository.findById((long) id.intValue()).orElseThrow());
+        return mapper.toDTO(repository.findById((long) id.intValue()).orElseThrow()); // read-only
     }
 
     @Override
     public List<VacationRequestDTO> getAll() {
-        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList()); // read-only
     }
 
     @Override
+    @Transactional // Needed when creating a new VacationRequest in DB
     public VacationRequestDTO createVacationRequest(Long employeeId, java.time.LocalDate startDate, java.time.LocalDate endDate, Integer holiday) {
         Employee employee = employeeRepository.findById((long) employeeId.intValue()).orElseThrow();
 
@@ -65,6 +68,7 @@ public class VacationRequestServiceImpl implements VacationRequestService {
     }
 
     @Override
+    @Transactional // Needed when updating status and modifying Employee/VacationRequest
     public VacationRequestDTO updateStatus(Long vacationId, String status) {
         VacationRequest request = repository.findById((long) vacationId.intValue()).orElseThrow();
         Employee employee = request.getEmployee();

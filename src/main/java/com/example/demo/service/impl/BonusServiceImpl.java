@@ -11,6 +11,7 @@ import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.BonusService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // <--- added import
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,12 +33,14 @@ public class BonusServiceImpl implements BonusService {
     }
 
     @Override
+    @Transactional // Needed because we are saving a new Bonus entity
     public BonusDTO create(BonusDTO dto) {
         Bonus bonus = mapper.toEntity(dto);
         return mapper.toDTO(bonusRepository.save(bonus));
     }
 
     @Override
+    @Transactional // Needed because we are updating an existing entity
     public BonusDTO update(Long id, BonusDTO dto) {
         Bonus bonus = bonusRepository.findById(id).orElseThrow();
         bonus.setAmount(dto.getAmount());
@@ -45,27 +48,29 @@ public class BonusServiceImpl implements BonusService {
     }
 
     @Override
+    @Transactional // Needed because we are deleting from the database
     public void delete(Long id) {
         bonusRepository.deleteById(id);
     }
 
     @Override
     public BonusDTO getById(Long id) {
-        return mapper.toDTO(bonusRepository.findById(id).orElseThrow());
+        return mapper.toDTO(bonusRepository.findById(id).orElseThrow()); // read-only, no transaction needed
     }
 
     @Override
     public List<BonusDTO> getAll() {
-        return bonusRepository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+        return bonusRepository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList()); // read-only
     }
 
     @Override
     public Double calculateBonus(Double salary, String season) {
-        BonusRate rate = BonusRate.fromSeason(season);
+        BonusRate rate = BonusRate.fromSeason(season); // calculation only, no DB changes
         return salary * rate.getRate();
     }
 
     @Override
+    @Transactional // Needed because we are creating multiple Bonus entities
     public List<BonusDTO> createBonusesForCompany(Long companyId, String season) {
         Company company = companyRepository.findById((long) companyId.intValue()).orElseThrow();
         List<Employee> employees = employeeRepository.findByCompany(company);
