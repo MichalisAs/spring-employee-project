@@ -12,8 +12,8 @@ public class VacationRequestMapper {
         if (entity == null) return null;
 
         VacationRequestDTO dto = new VacationRequestDTO();
-        dto.setId(entity.getId()); // Long from entity
-        dto.setEmployeeId(entity.getEmployee().getId()); // Long from Employee
+        dto.setId(entity.getId().longValue());
+        dto.setEmployeeId(entity.getEmployee().getId().longValue());
         dto.setStartDate(entity.getStartDate().toLocalDate());
         dto.setEndDate(entity.getEndDate().toLocalDate());
         dto.setStatus(entity.getStatus());

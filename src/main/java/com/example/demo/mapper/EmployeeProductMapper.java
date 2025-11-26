@@ -12,8 +12,8 @@ public class EmployeeProductMapper {
         if (entity == null) return null;
 
         EmployeeProductDTO dto = new EmployeeProductDTO();
-        dto.setId(entity.getId());                         // Long -> Long
-        dto.setEmployeeId(entity.getEmployee().getId());   // Long -> Long
+        dto.setId(entity.getId().longValue());
+        dto.setEmployeeId(entity.getEmployee().getId().longValue());
         dto.setProductId(entity.getProduct().getId());     // Long -> Long
 
         return dto;

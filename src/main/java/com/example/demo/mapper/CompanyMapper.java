@@ -11,7 +11,7 @@ public class CompanyMapper {
         if (entity == null) return null;
 
         CompanyDTO dto = new CompanyDTO();
-        dto.setId(entity.getId()); // Long from entity
+        dto.setId(entity.getId().longValue());
         dto.setName(entity.getName());
         dto.setAddress(entity.getAddress());
         dto.setPhone(entity.getPhone());
