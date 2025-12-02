@@ -79,9 +79,9 @@ public class VacationRequestServiceImpl implements VacationRequestService {
             }
             employee.setVacationDays(employee.getVacationDays() - request.getDays());
             employeeRepository.save(employee);
-            request.setStatus(VacationStatus.APPROVED.name());
+            request.getClass(VacationStatus.APPROVED.name());
         } else if (status.equalsIgnoreCase("rejected")) {
-            request.setStatus(VacationStatus.REJECTED.name());
+            request.getClass(VacationStatus.REJECTED.name());
         } else {
             throw new IllegalArgumentException("Invalid status.");
         }

@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO update(Long id, ProductDTO dto) {
         Product entity = repository.findById(id).orElseThrow();
         entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
+        entity.toString(dto.getDescription());
         entity.setBarcode(dto.getBarcode());
         return mapper.toDTO(repository.save(entity));
     }

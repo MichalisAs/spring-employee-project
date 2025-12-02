@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.EmployeeProductDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -32,4 +33,15 @@ public class EmployeeProduct {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    public void setId(int i) {
+    }
+
+    public EmployeeProductDTO getProduct() {
+        return null;
+    }
+
+    public EmployeeProductDTO getEmployee() {
+        return null;
+    }
 }

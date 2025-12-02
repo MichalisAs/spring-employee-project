@@ -11,4 +11,16 @@ public class ProductDTO {
     private String name;
     private String description;
     private String barcode;
+
+    public Object getName() {
+        return null;
+    }
+
+    public Object getDescription() {
+        return null;
+    }
+
+    public Object getBarcode() {
+        return null;
+    }
 }

@@ -24,4 +24,13 @@ public class Product {
     private String name;
     private String description;
     private String barcode;
+
+    public void setName(Object name) {
+    }
+
+    public void setBarcode(Object barcode) {
+    }
+
+    public void toString(Object description) {
+    }
 }

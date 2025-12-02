@@ -2,36 +2,30 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.CompanyDTO;
 import com.example.demo.entity.Company;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CompanyMapper {
 
-    public CompanyDTO toDTO(Company entity) {
-        if (entity == null) return null;
+    private final ModelMapper modelMapper = new ModelMapper();
 
-        CompanyDTO dto = new CompanyDTO();
-        dto.setId(entity.getId().longValue());
-        dto.setName(entity.getName());
-        dto.setAddress(entity.getAddress());
-        dto.setPhone(entity.getPhone());
-        return dto;
+    public CompanyDTO toDTO(Company entity) {
+        return modelMapper.map(entity, CompanyDTO.class);
     }
 
     public Company toEntity(CompanyDTO dto) {
-        if (dto == null) return null;
+        Company entity = modelMapper.map(dto, Company.class);
 
-        Company entity = new Company();
-        entity.setId(dto.getId() == null ? null : Math.toIntExact(dto.getId())); // Long → Integer conversion
-        entity.setName(dto.getName());
-        entity.setAddress(dto.getAddress());
-        entity.setPhone(dto.getPhone());
+        // Manual fix: Long DTO ID → Integer entity ID
+       // if (dto.getId() != null) {
+         //   entity.setId(dto.getId().intValue());
+        //}
+
         return entity;
     }
 
     public void updateEntity(Company entity, CompanyDTO dto) {
-        entity.setName(dto.getName());
-        entity.setAddress(dto.getAddress());
-        entity.setPhone(dto.getPhone());
+        modelMapper.map(dto, entity);
     }
 }

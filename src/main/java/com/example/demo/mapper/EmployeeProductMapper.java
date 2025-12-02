@@ -2,34 +2,36 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.EmployeeProductDTO;
 import com.example.demo.entity.EmployeeProduct;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeProductMapper {
 
-    // Convert Entity -> DTO
-    public EmployeeProductDTO toDTO(EmployeeProduct entity) {
-        if (entity == null) return null;
+    private final ModelMapper modelMapper = new ModelMapper();
 
-        EmployeeProductDTO dto = new EmployeeProductDTO();
-        dto.setId(entity.getId().longValue());
-        dto.setEmployeeId(entity.getEmployee().getId().longValue());
-        dto.setProductId(entity.getProduct().getId());     // Long -> Long
+    public EmployeeProductDTO toDTO(EmployeeProduct entity) {
+        EmployeeProductDTO dto = modelMapper.map(entity, EmployeeProductDTO.class);
+
+        if (entity.getEmployee() != null) {
+            dto.setEmployeeId(entity.getEmployee().getId().longValue());
+        }
+
+        if (entity.getProduct() != null) {
+            dto.setProductId(entity.getProduct().getId());
+        }
 
         return dto;
     }
 
-    // Convert DTO -> Entity
     public EmployeeProduct toEntity(EmployeeProductDTO dto) {
-        if (dto == null) return null;
+        EmployeeProduct entity = modelMapper.map(dto, EmployeeProduct.class);
 
-        EmployeeProduct entity = new EmployeeProduct();
-        entity.setId(Math.toIntExact(dto.getId()));        // Long -> Long
+        if (dto.getId() != null) {
+            entity.setId(dto.getId().intValue());
+        }
 
-        // NOTE: Set the Employee and Product in the service layer, e.g.:
-        // entity.setEmployee(employeeRepository.findById(dto.getEmployeeId()).orElseThrow());
-        // entity.setProduct(productRepository.findById(dto.getProductId()).orElseThrow());
-
+        // Employee and Product are set inside the service layer
         return entity;
     }
 }

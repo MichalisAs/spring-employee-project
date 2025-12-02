@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.EmployeeDTO;
+import com.example.demo.mapper.EmployeeMapper;
 import com.example.demo.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeDTO create(@RequestBody EmployeeDTO dto) {
-        return service.create(dto);
+    public EmployeeMapper create(@RequestBody EmployeeMapper dto) {
+        return (EmployeeMapper) service.create(dto);
     }
 
     @PutMapping("/{id}")
-    public EmployeeDTO update(@PathVariable Long id, @RequestBody EmployeeDTO dto) {
-        return service.update(id, dto);
+    public EmployeeMapper update(@PathVariable Long id, @RequestBody EmployeeMapper dto) {
+        return service.update (id, dto);
     }
 
     @DeleteMapping("/{id}")
@@ -32,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public EmployeeDTO getById(@PathVariable Long id) {
+    public EmployeeMapper getById(@PathVariable Long id) {
         return service.getById(id);
     }
 

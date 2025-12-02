@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.BonusDTO;
 import com.example.demo.service.BonusService;
+import org.apache.catalina.Store;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -11,13 +13,17 @@ import java.util.List;
 public class BonusController {
 
     private final BonusService service;
+    private Store bonusService;
 
     public BonusController(BonusService service) {
         this.service = service;
     }
 
     @PostMapping
-    public BonusDTO create(@RequestBody BonusDTO dto) {
+    public BonusDTO create(@RequestBody BonusDTO dto) throws IOException {
+        
+        BonusDTO saved;
+        bonusService.save(dto);
         return service.create(dto);
     }
 

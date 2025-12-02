@@ -73,4 +73,12 @@ public class Employee {
 
     public void setVacationDays(Object vacationDays) {
     }
+
+    public Number getSalary() {
+        return null;
+    }
+
+    public Number getId() {
+        return null;
+    }
 }

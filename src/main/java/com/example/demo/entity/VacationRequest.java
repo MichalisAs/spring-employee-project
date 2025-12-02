@@ -36,4 +36,30 @@ public class VacationRequest {
     private String status;
 
     private Integer days;
+
+    public void getClass(String name) {
+    }
+
+    public void setEndDate(Date date) {
+    }
+
+    public void setStatus(String upperCase) {
+    }
+
+    public void setStartDate(Date date) {
+    }
+
+    public Integer getDays() {
+        return 0;
+    }
+
+    public Employee getEmployee() {
+        return null;
+    }
+
+    public void setEmployee(Employee employee) {
+    }
+
+    public void setDays(int daysRequested) {
+    }
 }

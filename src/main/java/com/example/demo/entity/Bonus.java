@@ -33,4 +33,13 @@ public class Bonus {
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
+
+    public void setAmount(BigDecimal bigDecimal) {
+    }
+
+    public void setCompany(Company company) {
+    }
+
+    public void setEmployee(Employee e) {
+    }
 }

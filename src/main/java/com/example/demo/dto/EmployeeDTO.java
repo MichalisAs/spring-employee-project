@@ -27,4 +27,8 @@ public class EmployeeDTO {
     public Object getVacationDays() {
         return null;
     }
+
+    public Number getCompanyId() {
+        return null;
+    }
 }
