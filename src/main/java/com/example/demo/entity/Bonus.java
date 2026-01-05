@@ -1,12 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Bonus {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -33,13 +27,4 @@ public class Bonus {
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
-
-    public void setAmount(BigDecimal bigDecimal) {
-    }
-
-    public void setCompany(Company company) {
-    }
-
-    public void setEmployee(Employee e) {
-    }
 }

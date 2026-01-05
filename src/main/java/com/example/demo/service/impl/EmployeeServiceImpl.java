@@ -3,65 +3,61 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entity.Employee;
 import com.example.demo.mapper.EmployeeMapper;
+import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.EmployeeService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // <--- added import
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
-    // In-memory list for example purposes
-    private final List<Employee> employees = new ArrayList<>();
+    private final EmployeeRepository repository;
+    private final EmployeeMapper mapper;
 
-    @Override
-    public List<Employee> getAllEmployees() {
-        return employees; // read-only, no transaction needed
-    }
-
-    @Override
-    @Transactional // Needed if adding to DB
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
-    }
-
-    @Override
-    public EmployeeMapper create(EmployeeMapper dto) {
-        return null;
-    }
-
-    @Transactional
-    @Override
-    public EmployeeDTO create(EmployeeDTO dto) {
-        return null;
-    }
-
-    @Transactional
-    @Override
-    public EmployeeDTO update(Long id, EmployeeDTO dto) {
-        return null;
-    }
-
-    @Override
-    @Transactional // Needed when deleting an Employee
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public EmployeeMapper getById(Long id) {
-        return null; // read-only
-    }
-
-    @Override
-    public EmployeeMapper update(Long id, EmployeeMapper dto) {
-        return null;
+    public EmployeeServiceImpl(EmployeeRepository repository, EmployeeMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
     public List<EmployeeDTO> getAll() {
-        return List.of(); // read-only
+        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDTO getById(Long id) {
+        return mapper.toDTO(repository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public EmployeeDTO create(EmployeeDTO dto) {
+        Employee employee = mapper.toEntity(dto);
+        return mapper.toDTO(repository.save(employee));
+    }
+
+    @Override
+    public EmployeeDTO update(Long id, EmployeeDTO dto) {
+        Employee employee = repository.findById(id).orElseThrow();
+        employee.setName(dto.getName());
+        employee.setSurname(dto.getSurname());
+        employee.setEmail(dto.getEmail());
+        employee.setStartDate(dto.getStartDate());
+        employee.setVacationDays(dto.getVacationDays());
+        employee.setSalary(dto.getSalary());
+        employee.setEmploymentType(dto.getEmploymentType());
+        employee.setCompanyId(dto.getCompanyId());
+        return mapper.toDTO(repository.save(employee));
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public List<EmployeeDTO> getByCompanyId(Long companyId) {
+        return repository.findByCompanyId(companyId).stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 }

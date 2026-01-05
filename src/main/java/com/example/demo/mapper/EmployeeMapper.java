@@ -1,25 +1,41 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.EmployeeDTO;
-import com.example.demo.entity.Company;
 import com.example.demo.entity.Employee;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeMapper {
 
-    private final ModelMapper modelMapper = new ModelMapper();
+    public EmployeeDTO toDTO(Employee employee) {
+        if (employee == null) return null;
 
-    public EmployeeDTO toDTO(Employee entity) {
-        return modelMapper.map(entity, EmployeeDTO.class);
+        EmployeeDTO dto = new EmployeeDTO();
+        dto.setId(employee.getId());
+        dto.setName(employee.getName());
+        dto.setSurname(employee.getSurname());
+        dto.setEmail(employee.getEmail());
+        dto.setStartDate(employee.getStartDate());
+        dto.setVacationDays(employee.getVacationDays());
+        dto.setSalary(employee.getSalary());
+        dto.setEmploymentType(employee.getEmploymentType());
+        dto.setCompanyId(employee.getCompanyId());
+        return dto;
     }
 
     public Employee toEntity(EmployeeDTO dto) {
-        return modelMapper.map(dto, Employee.class);
-    }
+        if (dto == null) return null;
 
-    public Employee toEntity(EmployeeMapper dto, Company company) {
-        return null;
+        Employee employee = new Employee();
+        employee.setId(dto.getId());
+        employee.setName(dto.getName());
+        employee.setSurname(dto.getSurname());
+        employee.setEmail(dto.getEmail());
+        employee.setStartDate(dto.getStartDate());
+        employee.setVacationDays(dto.getVacationDays());
+        employee.setSalary(dto.getSalary());
+        employee.setEmploymentType(dto.getEmploymentType());
+        employee.setCompanyId(dto.getCompanyId());
+        return employee;
     }
 }

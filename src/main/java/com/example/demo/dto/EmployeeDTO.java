@@ -2,12 +2,13 @@ package com.example.demo.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class EmployeeDTO {
 
     private Long id;
@@ -16,19 +17,7 @@ public class EmployeeDTO {
     private String email;
     private LocalDate startDate;
     private Integer vacationDays;
-    private BigDecimal salary;
+    private Double salary;
     private String employmentType;
     private Long companyId;
-
-    public Object getStartDate() {
-        return null;
-    }
-
-    public Object getVacationDays() {
-        return null;
-    }
-
-    public Number getCompanyId() {
-        return null;
-    }
 }

@@ -1,19 +1,11 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "employee")
@@ -23,62 +15,20 @@ import java.util.Date;
 public class Employee {
 
     @Id
-    @Column(name = "id")
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
     private String name;
-
-    @Column(name = "surname", nullable = false, length = 50)
     private String surname;
-
-    @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
+    private LocalDate startDate;
 
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
-
-    @Column(name = "vacation_days", nullable = false)
+    @Column(name = "vacation_days")
     private Integer vacationDays;
 
-    @Column(name = "salary", nullable = false)
-    private BigDecimal salary;
-
-    @Column(name = "employment_type", nullable = false, length = 50)
+    private Double salary;
     private String employmentType;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
-
-    public String getName() {
-        return "";
-    }
-
-    public Integer getVacationDays() {
-        return 0;
-    }
-
-    public CallableStatement getStartDate() {
-        return null;
-    }
-
-    public Company getCompany() {
-        return null;
-    }
-
-    public LocalDate valueOf(Object startDate) {
-        return null;
-    }
-
-    public void setVacationDays(Object vacationDays) {
-    }
-
-    public Number getSalary() {
-        return null;
-    }
-
-    public Number getId() {
-        return null;
-    }
+    @Column(name = "company_id")
+    private Long companyId;
 }

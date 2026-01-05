@@ -61,7 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Double calculateMonthlyExpenses(Long companyId) {
         Company company = companyRepository.findById((long) companyId.intValue()).orElseThrow();
-        List<Employee> employees = employeeRepository.findByCompany(company);
+        List<Employee> employees = employeeRepository.findByCompanyId(Long.valueOf(company.getId()));
         return employees.stream().mapToDouble(e -> e.getSalary().doubleValue()).sum(); // read-only
     }
 }

@@ -6,6 +6,8 @@ import com.example.demo.entity.VacationRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+
 @Component
 public class VacationRequestMapper {
 
@@ -32,11 +34,11 @@ public class VacationRequestMapper {
         entity.setEmployee(employee);
 
         if (dto.getStartDate() != null) {
-            entity.setStartDate(java.sql.Date.valueOf(dto.getStartDate()));
+            entity.setStartDate(Date.valueOf(dto.getStartDate()).toLocalDate());
         }
 
         if (dto.getEndDate() != null) {
-            entity.setEndDate(java.sql.Date.valueOf(dto.getEndDate()));
+            entity.setEndDate(Date.valueOf(dto.getEndDate()).toLocalDate());
         }
 
         return entity;

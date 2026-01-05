@@ -9,8 +9,9 @@ import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.VacationRequestRepository;
 import com.example.demo.service.VacationRequestService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // <--- added import
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,27 +30,32 @@ public class VacationRequestServiceImpl implements VacationRequestService {
     }
 
     @Override
-    @Transactional // Needed when creating a VacationRequest
+    @Transactional
     public VacationRequestDTO create(VacationRequestDTO dto) {
-        Employee employee = employeeRepository.findById((long) dto.getEmployeeId().intValue()).orElseThrow();
+        Employee employee = employeeRepository.findById(dto.getEmployeeId())
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
         VacationRequest entity = mapper.toEntity(dto, employee);
         return mapper.toDTO(repository.save(entity));
     }
 
     @Override
     public VacationRequestDTO getById(Long id) {
-        return mapper.toDTO(repository.findById((long) id.intValue()).orElseThrow()); // read-only
+        return mapper.toDTO(repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VacationRequest not found")));
     }
 
     @Override
     public List<VacationRequestDTO> getAll() {
-        return repository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList()); // read-only
+        return repository.findAll().stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional // Needed when creating a new VacationRequest in DB
-    public VacationRequestDTO createVacationRequest(Long employeeId, java.time.LocalDate startDate, java.time.LocalDate endDate, Integer holiday) {
-        Employee employee = employeeRepository.findById((long) employeeId.intValue()).orElseThrow();
+    @Transactional
+    public VacationRequestDTO createVacationRequest(Long employeeId, LocalDate startDate, LocalDate endDate, Integer holiday) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         long daysRequested = ChronoUnit.DAYS.between(startDate, endDate) + 1 - holiday;
 
@@ -59,8 +65,8 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 
         VacationRequest request = new VacationRequest();
         request.setEmployee(employee);
-        request.setStartDate(java.sql.Date.valueOf(startDate));
-        request.setEndDate(java.sql.Date.valueOf(endDate));
+        request.setStartDate(startDate);
+        request.setEndDate(endDate);
         request.setDays((int) daysRequested);
         request.setStatus(VacationStatus.PENDING.name());
 
@@ -68,9 +74,10 @@ public class VacationRequestServiceImpl implements VacationRequestService {
     }
 
     @Override
-    @Transactional // Needed when updating status and modifying Employee/VacationRequest
+    @Transactional
     public VacationRequestDTO updateStatus(Long vacationId, String status) {
-        VacationRequest request = repository.findById((long) vacationId.intValue()).orElseThrow();
+        VacationRequest request = repository.findById(vacationId)
+                .orElseThrow(() -> new RuntimeException("VacationRequest not found"));
         Employee employee = request.getEmployee();
 
         if (status.equalsIgnoreCase("accepted")) {
@@ -79,9 +86,9 @@ public class VacationRequestServiceImpl implements VacationRequestService {
             }
             employee.setVacationDays(employee.getVacationDays() - request.getDays());
             employeeRepository.save(employee);
-            request.getClass(VacationStatus.APPROVED.name());
+            request.setStatus(VacationStatus.APPROVED.name());
         } else if (status.equalsIgnoreCase("rejected")) {
-            request.getClass(VacationStatus.REJECTED.name());
+            request.setStatus(VacationStatus.REJECTED.name());
         } else {
             throw new IllegalArgumentException("Invalid status.");
         }

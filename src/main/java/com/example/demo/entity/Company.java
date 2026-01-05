@@ -1,10 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -17,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Company {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 100)
@@ -28,16 +24,4 @@ public class Company {
 
     @Column(name = "phone", length = 20)
     private String phone;
-
-    public String getAddress() {
-        return "";
-    }
-
-    public String getName() {
-        return "";
-    }
-
-    public String getPhone() {
-        return "";
-    }
 }

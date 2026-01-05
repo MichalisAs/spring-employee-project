@@ -15,19 +15,4 @@ public class VacationRequestDTO {
     private LocalDate endDate;
     private String status;
     private Integer days;
-
-    public String getStartDate() {
-        return "";
-    }
-
-    public String getEndDate() {
-        return "";
-    }
-
-    public Number getEmployeeId() {
-        return null;
-    }
-
-    public void setEmployeeId(long l) {
-    }
 }

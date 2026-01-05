@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.BonusDTO;
 import com.example.demo.service.BonusService;
-import org.apache.catalina.Store;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.util.List;
 public class BonusController {
 
     private final BonusService service;
-    private Store bonusService;
 
     public BonusController(BonusService service) {
         this.service = service;
@@ -21,9 +19,6 @@ public class BonusController {
 
     @PostMapping
     public BonusDTO create(@RequestBody BonusDTO dto) throws IOException {
-        
-        BonusDTO saved;
-        bonusService.save(dto);
         return service.create(dto);
     }
 
@@ -48,12 +43,14 @@ public class BonusController {
     }
 
     @GetMapping("/calculate")
-    public Double calculateBonus(@RequestParam Double salary, @RequestParam String season) {
+    public Double calculateBonus(@RequestParam Double salary,
+                                 @RequestParam String season) {
         return service.calculateBonus(salary, season);
     }
 
     @GetMapping("/create-for-company")
-    public List<BonusDTO> createBonusesForCompany(@RequestParam Long companyId, @RequestParam String season) {
+    public List<BonusDTO> createBonusesForCompany(@RequestParam Long companyId,
+                                                  @RequestParam String season) {
         return service.createBonusesForCompany(companyId, season);
     }
 }
